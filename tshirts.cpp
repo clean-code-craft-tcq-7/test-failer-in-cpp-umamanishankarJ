@@ -1,22 +1,40 @@
 #include <iostream>
-#include <assert.h>
 
-char size(int cms) {
-    char sizeName = '\0';
-    if(cms < 38) {
-        sizeName = 'S';
-    } else if(cms > 38 && cms < 42) {
-        sizeName = 'M';
-    } else if(cms > 42) {
-        sizeName = 'L';
+char getSize(int cms) {
+    if (cms == 30 || cms == 42) {
+        return '\0';  // Invalid size
+    } else if (cms < 38) {
+        return 'S';
+    } else if (cms >= 38 && cms < 42) {
+        return 'M';
+    } else {
+        return 'L';
     }
-    return sizeName;
 }
 
-void testTshirtSize() {
-    std::cout << "\nTshirt size test\n";
-    assert(size(37) == 'S');
-    assert(size(40) == 'M');
-    assert(size(43) == 'L');
-    std::cout << "All is well (maybe!)\n";
+int getValidInput() {
+    int cms;
+    while (true) {
+        std::cout << "Enter chest size in cm: ";
+        std::cin >> cms;
+
+        char size = getSize(cms);
+        if (size == '\0') {
+            std::cout << "Invalid size is given. Please re-enter.\n";
+        } else {
+            return cms;  // Valid input
+        }
+    }
+}
+
+void displaySize(int cms) {
+    char size = getSize(cms);
+    std::cout << "The T-shirt size is: " << size << "\n";
+}
+
+// Main function
+int main() {
+    int validCms = getValidInput();
+    displaySize(validCms);
+    return 0;
 }
