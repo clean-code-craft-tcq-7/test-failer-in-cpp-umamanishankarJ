@@ -23,34 +23,38 @@ namespace WeatherSpace
         int Humidity() const override {
             return 72;
         }
-
         int Precipitation() const override {
             return 70;
         }
-
         double TemperatureInC() const override {
             return 26;
         }
-
         int WindSpeedKMPH() const override {
             return 52;
         }
     };
-    string Report(const IWeatherSensor& sensor)
-    {
-        int precipitation = sensor.Precipitation();
-        // precipitation < 20 is a sunny day
-        string report = "Sunny Day";
+   string Report(const IWeatherSensor& sensor)
+{
+    int precipitation = sensor.Precipitation();
+    string report = "Sunny Day";
 
-        if (sensor.TemperatureInC() > 25)
+    if (sensor.TemperatureInC() > 25)
+    {
+        if (precipitation >= 20 && precipitation < 60)
         {
-            if (precipitation >= 20 && precipitation < 60)
-                report = "Partly Cloudy";
-            else if (sensor.WindSpeedKMPH() > 50)
-                report = "Alert, Stormy with heavy rain";
+            report = "Partly Cloudy";
         }
-        return report;
+        else if (precipitation >= 60)
+        {
+            if (sensor.WindSpeedKMPH() > 50)
+                report = "Alert, Stormy with heavy rain";
+            else
+                report = "Rainy Day";
+        }
     }
+
+    return report;
+}
     
     void TestRainy()
     {
